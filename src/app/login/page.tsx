@@ -7,7 +7,7 @@ const LoginPage = () => {
       {/* BOX */}
       <div className="h-full md:h-[70%] md:w-full lg:w-[60%] xl:w-[50%] shadow-2xl rounded-md flex flex-col md:flex-row">
         {/* IMAGE CONTAINER */}
-        <div className="relative h-1/3 w-full md:h-full md:w-1/2">
+        <div className="relative h-1/2 w-full md:h-full md:w-1/2">
           <Image src="/loginBg.png" alt="" fill className="object-cover" />
         </div>
 
