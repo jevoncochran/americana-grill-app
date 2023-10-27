@@ -9,6 +9,7 @@ const getData = async () => {
   if (!res.ok) {
     throw new Error("Unable to retrieve categories.");
   }
+  
   return res.json();
 };
 

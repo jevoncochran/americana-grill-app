@@ -1,12 +1,26 @@
-import { FEATURED_PRODUCTS } from "@/data";
 import Image from "next/image";
+import { Product } from "@/types/types";
 
-const Featured = () => {
+const getData = async () => {
+  const res = await fetch("http://localhost:3000/api/products", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Unaable to retrieve featured products");
+  }
+
+  return res.json();
+};
+
+const Featured = async () => {
+  const featuredProducts: Product[] = await getData();
+
   return (
     <div className="w-screen overflow-x-scroll text-red-500">
       {/* WRAPPER */}
       <div className="w-max flex">
-        {FEATURED_PRODUCTS.map((product) => (
+        {featuredProducts.map((product) => (
           <div
             key={product.id}
             className="w-screen md:w-[50vw] xl:w-[33vw] h-[60vh] xl:h-[90vh] flex flex-col items-center justify-around p-4 hover:bg-fuchsia-50 transition-all duration-300"
