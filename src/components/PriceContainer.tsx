@@ -20,10 +20,11 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
     options?: Option[],
     selected?: number
   ) => {
-    if (!options) {
+    if (!options || !options?.length) {
       return quantity * price;
     } else {
-      return quantity * (price + options[selected as number].additionalPrice);
+      console.log(options?.length);
+      return quantity * (price + options[selected!].additionalPrice);
     }
   };
 
@@ -33,7 +34,7 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">{total.toFixed(2)}</h2>
+      <h2 className="text-2xl font-bold">{Number(total).toFixed(2)}</h2>
       {/* OPTIONS CONTAINER */}
       <div className="flex gap-4">
         {product.options?.map((option, idx) => (
