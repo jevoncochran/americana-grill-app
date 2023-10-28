@@ -26,7 +26,6 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
     if (!options || !options?.length) {
       return quantity * price;
     } else {
-      console.log(options?.length);
       return quantity * (price + options[selected!].additionalPrice);
     }
   };

@@ -2,14 +2,42 @@
 import { useEffect } from "react";
 import { useCartStore } from "@/zustand/store";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleCheckout = async () => {
+    if (!session) {
+      router.push("/");
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          price: totalPrice,
+          products,
+          // TODO: Change this to an enum
+          status: "not paid",
+          userEmail: session?.user.email,
+        }),
+      });
+
+      const data = await res.json();
+      router.push(`/pay/${data.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     useCartStore.persist.rehydrate();
   }, []);
-
   return (
     <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col text-red-500 lg:flex-row">
       {/* PRODUCTS CONTAINER */}
@@ -58,7 +86,10 @@ const CartPage = () => {
           <span>Total (taxes included)</span>
           <span className="font-bold">$83.90</span>
         </div>
-        <button className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end">
+        <button
+          className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end"
+          onClick={handleCheckout}
+        >
           CHECKOUT
         </button>
       </div>
