@@ -83,6 +83,7 @@ model Product {
 
 model Order {
   id String @id @default(cuid())
+  createdAt DateTime @default(now())
   price Decimal
   products Json[]
   status String
