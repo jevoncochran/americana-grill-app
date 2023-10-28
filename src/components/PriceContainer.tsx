@@ -50,6 +50,10 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
     setTotal(getTotalPrice(quantity, product.price, product.options, selected));
   }, [quantity, selected, product.options, product.price]);
 
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold">{Number(total).toFixed(2)}</h2>

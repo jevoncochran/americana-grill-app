@@ -1,9 +1,14 @@
 "use client";
+import { useEffect } from "react";
 import { useCartStore } from "@/zustand/store";
 import Image from "next/image";
 
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
+
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
 
   return (
     <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col text-red-500 lg:flex-row">
@@ -18,7 +23,9 @@ const CartPage = () => {
               <Image src="/temporary/p1.png" alt="" width={100} height={100} />
             )}
             <div>
-              <h1 className="uppercase text-xl font-bold">{item.title}</h1>
+              <h1 className="uppercase text-xl font-bold">
+                {item.title} x {item.quantity}
+              </h1>
               <span>{item.option}</span>
             </div>
             <h2 className="font-bold">${item.price}</h2>
