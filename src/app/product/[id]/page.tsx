@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PriceContainer from "@/components/PriceContainer";
+import DeleteBtn from "@/components/DeleteBtn";
 
 const getData = async (id: string) => {
   const res = await fetch(`http://localhost:3000/api/products/${id}`, {
@@ -17,7 +18,7 @@ const SingleProductPage = async ({ params }: { params: { id: string } }) => {
   const product = await getData(params.id);
 
   return (
-    <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex md:flex-row flex-col md:gap-8 justify-around md:justify-center md:items-center text-red-500">
+    <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex md:flex-row flex-col md:gap-8 justify-around md:justify-center md:items-center text-red-500 relative">
       {/* IMAGE CONTAINER */}
       {product.img && (
         <div className="relative w-full h-1/2 md:h-[70%]">
@@ -33,6 +34,8 @@ const SingleProductPage = async ({ params }: { params: { id: string } }) => {
         <p>{product.desc}</p>
         <PriceContainer product={product} />
       </div>
+
+      <DeleteBtn productId={product.id} />
     </div>
   );
 };
