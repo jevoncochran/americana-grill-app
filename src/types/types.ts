@@ -33,6 +33,17 @@ export type CartItem = {
   title: string;
   img?: string;
   price: number;
-  option: string;
+  option?: string;
   quantity: number;
+};
+
+export type Cart = {
+  products: CartItem[];
+  totalItems: number;
+  totalPrice: number;
+};
+
+export type Actions = {
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (item: CartItem) => void;
 };

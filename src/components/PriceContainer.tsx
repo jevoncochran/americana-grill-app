@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Product } from "@/data";
-import { Option } from "@/data";
+import { Product, Option } from "@/types/types";
+import { useCartStore } from "@/zustand/store";
+import { toast } from "react-toastify";
 
 interface PriceContainerProps {
   product: Product;
 }
 
 const PriceContainer = ({ product }: PriceContainerProps) => {
+  const { addToCart } = useCartStore();
+
   const [total, setTotal] = useState(product.price);
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState(0);
@@ -26,6 +29,21 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
       console.log(options?.length);
       return quantity * (price + options[selected!].additionalPrice);
     }
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      img: product.img,
+      price: total,
+      // TODO: I do not follow understand this
+      ...(product.options?.length && {
+        option: product.options[selected].title,
+      }),
+      quantity: quantity,
+    });
+    toast.success("Product succesfully added to your cart");
   };
 
   useEffect(() => {
@@ -74,7 +92,10 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
         </div>
 
         {/* CART BUTTON */}
-        <button className="w-56 uppercase bg-red-500 text-white p-3 ring-1 ring-red-500">
+        <button
+          className="w-56 uppercase bg-red-500 text-white p-3 ring-1 ring-red-500"
+          onClick={handleAddToCart}
+        >
           Add to Cart
         </button>
       </div>
