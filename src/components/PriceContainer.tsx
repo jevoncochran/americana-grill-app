@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Product } from "@/data";
-import { Option } from "@/data";
+import { Product, Option } from "@/types/types";
+import { useCartStore } from "@/zustand/store";
+import { toast } from "react-toastify";
 
 interface PriceContainerProps {
   product: Product;
 }
 
 const PriceContainer = ({ product }: PriceContainerProps) => {
+  const { addToCart } = useCartStore();
+
   const [total, setTotal] = useState(product.price);
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState(0);
@@ -20,20 +23,39 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
     options?: Option[],
     selected?: number
   ) => {
-    if (!options) {
-      return quantity * price;
+    if (!options || !options?.length) {
+      return quantity * Number(price);
     } else {
-      return quantity * (price + options[selected as number].additionalPrice);
+      return quantity * (Number(price) + options[selected!].additionalPrice);
     }
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      img: product.img,
+      price: total,
+      // TODO: I do not follow understand this
+      ...(product.options?.length && {
+        option: product.options[selected].title,
+      }),
+      quantity: quantity,
+    });
+    toast.success("Product succesfully added to your cart");
   };
 
   useEffect(() => {
     setTotal(getTotalPrice(quantity, product.price, product.options, selected));
   }, [quantity, selected, product.options, product.price]);
 
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">{total.toFixed(2)}</h2>
+      <h2 className="text-2xl font-bold">{Number(total).toFixed(2)}</h2>
       {/* OPTIONS CONTAINER */}
       <div className="flex gap-4">
         {product.options?.map((option, idx) => (
@@ -73,7 +95,10 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
         </div>
 
         {/* CART BUTTON */}
-        <button className="w-56 uppercase bg-red-500 text-white p-3 ring-1 ring-red-500">
+        <button
+          className="w-56 uppercase bg-red-500 text-white p-3 ring-1 ring-red-500"
+          onClick={handleAddToCart}
+        >
           Add to Cart
         </button>
       </div>
