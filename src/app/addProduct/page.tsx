@@ -1,6 +1,6 @@
 "use client";
 
-import { CLOUD_NAME, UPLOAD_PRESET } from "@/constants/constants";
+import { API_URL, CLOUD_NAME, UPLOAD_PRESET } from "@/constants/constants";
 import { Option } from "@/types/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -76,7 +76,7 @@ const AddProductPage = () => {
 
     try {
       const url = await upload();
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+      const res = await fetch(`${API_URL}/products`, {
         method: "POST",
         body: JSON.stringify({
           title: inputs.title,

@@ -1,8 +1,9 @@
+import { API_URL } from "@/constants/constants";
 import { Menu } from "@/types/types";
 import Link from "next/link";
 
 const getData = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`, {
+  const res = await fetch(`${API_URL}/categories`, {
     cache: "no-store",
   });
 

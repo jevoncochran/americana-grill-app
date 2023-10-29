@@ -1,6 +1,7 @@
 "use client";
 
 import CheckoutForm from "@/components/CheckoutForm";
+import { API_URL } from "@/constants/constants";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
@@ -30,12 +31,9 @@ const PaymentPage = ({ params }: Params) => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/create-intent/${orderId}`,
-          {
-            method: "POST",
-          }
-        );
+        const res = await fetch(`${API_URL}/create-intent/${orderId}`, {
+          method: "POST",
+        });
         const data = await res.json();
         setClientSecret(data.clientSecret);
       } catch (error) {

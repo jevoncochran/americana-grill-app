@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Product } from "@/types/types";
+import { API_URL } from "@/constants/constants";
 
 const getData = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+  const res = await fetch(`${API_URL}/products`, {
     cache: "no-store",
   });
 

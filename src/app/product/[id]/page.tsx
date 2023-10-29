@@ -1,9 +1,10 @@
 import Image from "next/image";
 import PriceContainer from "@/components/PriceContainer";
 import DeleteBtn from "@/components/DeleteBtn";
+import { API_URL } from "@/constants/constants";
 
 const getData = async (id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
+  const res = await fetch(`${API_URL}/products/${id}`, {
     cache: "no-store",
   });
 
