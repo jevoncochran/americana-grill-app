@@ -12,7 +12,9 @@ const OrdersPage = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
     queryFn: () =>
-      fetch("http://localhost:3000/api/orders").then((res) => res.json()),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`).then((res) =>
+        res.json()
+      ),
   });
 
   const queryClient = useQueryClient();
@@ -25,7 +27,7 @@ const OrdersPage = () => {
       id: string;
       updatedStatus: string;
     }) => {
-      return fetch(`http://localhost:3000/api/orders/${id}`, {
+      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedStatus),

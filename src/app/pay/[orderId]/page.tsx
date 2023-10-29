@@ -31,7 +31,7 @@ const PaymentPage = ({ params }: Params) => {
     const makeRequest = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/create-intent/${orderId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/create-intent/${orderId}`,
           {
             method: "POST",
           }
@@ -45,9 +45,6 @@ const PaymentPage = ({ params }: Params) => {
 
     makeRequest();
   }, [orderId]);
-
-  useEffect(() => {
-  }, [clientSecret]);
 
   return (
     <div>

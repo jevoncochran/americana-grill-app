@@ -76,7 +76,7 @@ const AddProductPage = () => {
 
     try {
       const url = await upload();
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
         method: "POST",
         body: JSON.stringify({
           title: inputs.title,

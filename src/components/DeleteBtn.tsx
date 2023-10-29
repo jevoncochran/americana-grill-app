@@ -14,9 +14,12 @@ const DeleteBtn = ({ productId }: DeleteBtnProps) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}products/${productId}`,
+      {
+        method: "DELETE",
+      }
+    );
 
     if (res.status === 200) {
       router.push("/menu");

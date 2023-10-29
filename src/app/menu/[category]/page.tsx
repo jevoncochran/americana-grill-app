@@ -8,7 +8,7 @@ interface CategoryPageProps {
 
 const getData = async (category: string) => {
   const res = await fetch(
-    `http://localhost:3000/api/products?category=${category}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/products?category=${category}`,
     { cache: "no-store" }
   );
 
