@@ -26,10 +26,10 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { title, desc, price, catSlug, options } = body;
+    const { title, desc, price, catSlug, options, img } = body;
 
     const newProduct = await prisma.product.create({
-      data: { title, desc, price, catSlug, options },
+      data: { title, desc, price, catSlug, options, img },
     });
 
     return new NextResponse(JSON.stringify(newProduct), { status: 201 });

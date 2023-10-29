@@ -1,5 +1,6 @@
 "use client";
 
+import { CLOUD_NAME, UPLOAD_PRESET } from "@/constants/constants";
 import { Option } from "@/types/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -20,6 +21,7 @@ const AddProductPage = () => {
     additionalPrice: 0,
   });
   const [options, setOptions] = useState<Option[]>([]);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -45,10 +47,35 @@ const AddProductPage = () => {
     });
   };
 
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target;
+    const item = (target.files as FileList)[0];
+    setFile(item);
+  };
+
+  const upload = async () => {
+    const formData = new FormData();
+    formData.append("file", file!);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        // headers: { "Content-Type": "multipart/form-data" },
+        body: formData,
+      }
+    );
+
+    const data = await res.json();
+    return data.url;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
+      const url = await upload();
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products`, {
         method: "POST",
         body: JSON.stringify({
@@ -57,6 +84,7 @@ const AddProductPage = () => {
           price: inputs.price,
           catSlug: inputs.catSlug,
           options,
+          img: url,
         }),
       });
 
@@ -82,6 +110,14 @@ const AddProductPage = () => {
         onSubmit={handleSubmit}
       >
         <h1>Add New Product</h1>
+        <div className="w-full flex flex-col gap-2">
+          <label>Image</label>
+          <input
+            type="file"
+            className="ring-1 ring-red-200 p-2 rounded-sm"
+            onChange={handleImgChange}
+          />
+        </div>
         <div className="w-full flex flex-col gap-2">
           <label>Title</label>
           <input

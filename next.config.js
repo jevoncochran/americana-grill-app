@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { reactStrictMode: false };
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      { hostname: "res.cloudinary.com", protocol: "https", port: "" },
+    ],
+  },
+  reactStrictMode: false,
+};
 
 module.exports = nextConfig;
