@@ -14,7 +14,7 @@ const SuccessPage = () => {
           `${process.env.NEXT_PUBLIC_BASE_URL}/confirm/${paymentIntent}`,
           { method: "PUT" }
         );
-
+        // TODO: Delay the reroute a bit to give user time to read success message
         router.push("/orders");
       } catch (error) {
         console.log(error);
@@ -25,9 +25,11 @@ const SuccessPage = () => {
   }, [paymentIntent, router]);
 
   return (
-    <div>
-      Payment successful. You are being redirected to the orders page. Please do
-      not close the page.
+    <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-15rem)] flex items-center justify-center text-center text-2xl text-green-700">
+      <p className="max-w-[600px]">
+        Payment successful. You are being redirected to the orders page. Please
+        do not close this page.
+      </p>
     </div>
   );
 };

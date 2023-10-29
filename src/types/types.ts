@@ -15,6 +15,7 @@ export type Product = {
   desc?: string;
   img?: string;
   price: number;
+  catSlug: string;
   options?: Option[];
 };
 

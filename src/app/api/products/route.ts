@@ -22,3 +22,22 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { title, desc, price, catSlug, options } = body;
+
+    const newProduct = await prisma.product.create({
+      data: { title, desc, price, catSlug, options },
+    });
+
+    return new NextResponse(JSON.stringify(newProduct), { status: 201 });
+  } catch (error) {
+    console.log(error);
+    return new NextResponse(
+      JSON.stringify({ message: "A server error has occurred" }),
+      { status: 500 }
+    );
+  }
+}

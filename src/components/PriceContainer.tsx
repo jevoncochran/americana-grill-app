@@ -24,9 +24,9 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
     selected?: number
   ) => {
     if (!options || !options?.length) {
-      return quantity * price;
+      return quantity * Number(price);
     } else {
-      return quantity * (price + options[selected!].additionalPrice);
+      return quantity * (Number(price) + options[selected!].additionalPrice);
     }
   };
 
