@@ -71,7 +71,7 @@ const OrdersPage = () => {
             >
               <td className="hidden md:block py-6 px-1">{item.id}</td>
               <td className="py-6 px-1">27.11.23</td>
-              <td className="py-6 px-1">{item.price}</td>
+              <td className="py-6 px-1">{Number(item.price).toFixed(2)}</td>
               <td className="hidden md:block py-6 px-1">
                 Coca Cola(2), Big Mac, Large Fries
               </td>
