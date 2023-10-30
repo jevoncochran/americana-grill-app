@@ -4,6 +4,7 @@ import { useCartStore } from "@/zustand/store";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/constants/constants";
 
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
@@ -16,7 +17,7 @@ const CartPage = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/orders", {
+      const res = await fetch(`${API_URL}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -56,7 +57,7 @@ const CartPage = () => {
               </h1>
               <span>{item.option}</span>
             </div>
-            <h2 className="font-bold">${item.price}</h2>
+            <h2 className="font-bold">${item.price.toFixed(2)}</h2>
             <span
               className="cursor-pointer"
               onClick={() => removeFromCart(item)}
@@ -71,7 +72,7 @@ const CartPage = () => {
       <div className="h-1/2 lg:h-full lg:w-1/3 p-4 lg:px-20 bg-fuchsia-50 flex flex-col gap-4 lg:gap-6 justify-center lg:text-xl">
         <div className="flex justify-between">
           <span>Subtotal ({totalItems} items)</span>
-          <span>${totalPrice}</span>
+          <span>${totalPrice.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Service Fee</span>
@@ -84,7 +85,7 @@ const CartPage = () => {
         <hr />
         <div className="flex justify-between my-2">
           <span>Total (taxes included)</span>
-          <span className="font-bold">$83.90</span>
+          <span className="font-bold">${(totalPrice + 2.7).toFixed(2)}</span>
         </div>
         <button
           className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end"

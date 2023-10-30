@@ -1,5 +1,6 @@
 "use client";
 
+import { API_URL } from "@/constants/constants";
 import { Order } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -11,8 +12,7 @@ const OrdersPage = () => {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
-    queryFn: () =>
-      fetch("http://localhost:3000/api/orders").then((res) => res.json()),
+    queryFn: () => fetch(`${API_URL}/orders`).then((res) => res.json()),
   });
 
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ const OrdersPage = () => {
       id: string;
       updatedStatus: string;
     }) => {
-      return fetch(`http://localhost:3000/api/orders/${id}`, {
+      return fetch(`${API_URL}/orders/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedStatus),
@@ -71,7 +71,7 @@ const OrdersPage = () => {
             >
               <td className="hidden md:block py-6 px-1">{item.id}</td>
               <td className="py-6 px-1">27.11.23</td>
-              <td className="py-6 px-1">{item.price}</td>
+              <td className="py-6 px-1">{Number(item.price).toFixed(2)}</td>
               <td className="hidden md:block py-6 px-1">
                 Coca Cola(2), Big Mac, Large Fries
               </td>

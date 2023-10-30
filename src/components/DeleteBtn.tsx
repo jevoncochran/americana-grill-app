@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/constants/constants";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -14,7 +15,7 @@ const DeleteBtn = ({ productId }: DeleteBtnProps) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
+    const res = await fetch(`${API_URL}products/${productId}`, {
       method: "DELETE",
     });
 

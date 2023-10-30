@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { API_URL } from "@/constants/constants";
 
 const SuccessPage = () => {
   const searchParams = useSearchParams();
@@ -10,10 +11,7 @@ const SuccessPage = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/confirm/${paymentIntent}`,
-          { method: "PUT" }
-        );
+        await fetch(`${API_URL}/confirm/${paymentIntent}`, { method: "PUT" });
         // TODO: Delay the reroute a bit to give user time to read success message
         router.push("/orders");
       } catch (error) {
