@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const getData = async () => {
   const res = await fetch(`${API_URL}/categories`, {
-    cache: "no-store",
+    // cache: "no-store",
   });
 
   if (!res.ok) {

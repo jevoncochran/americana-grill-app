@@ -4,7 +4,7 @@ import { API_URL } from "@/constants/constants";
 
 const getData = async () => {
   const res = await fetch(`${API_URL}/products`, {
-    cache: "no-store",
+    // cache: "no-store",
   });
 
   if (!res.ok) {
