@@ -23,6 +23,7 @@ const Featured = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    console.log(API_URL);
     axios.get(`${API_URL}/products`).then((res) => {
       setFeaturedProducts(res.data);
     });
