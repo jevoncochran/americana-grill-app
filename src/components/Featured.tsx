@@ -1,21 +1,33 @@
+"use client";
+
 import Image from "next/image";
 import { Product } from "@/types/types";
 import { API_URL } from "@/constants/constants";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-const getData = async () => {
-  const res = await fetch(`${API_URL}/products`, {
-    cache: "no-store",
-  });
+// const getData = async () => {
+//   const res = await fetch(`${API_URL}/products`, {
+//     // cache: "no-store",
+//   });
 
-  if (!res.ok) {
-    throw new Error("Unable to retrieve featured products");
-  }
+//   if (!res.ok) {
+//     throw new Error("Unable to retrieve featured products");
+//   }
 
-  return res.json();
-};
+//   return res.json();
+// };
 
-const Featured = async () => {
-  const featuredProducts: Product[] = await getData();
+const Featured = () => {
+  // const featuredProducts: Product[] = await getData();
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    console.log(API_URL);
+    axios.get(`${API_URL}/products`).then((res) => {
+      setFeaturedProducts(res.data);
+    });
+  }, []);
 
   return (
     <div className="w-screen overflow-x-scroll text-red-500">
