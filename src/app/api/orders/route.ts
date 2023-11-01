@@ -37,7 +37,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const session = await getAuthSession();
   console.log("session: ", session);
-  const token = await getToken({ req });
+  const token = await getToken({ req, raw: true });
   console.log("token: ", token);
 
   if (token) {
