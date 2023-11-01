@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { API_URL } from "@/constants/constants";
 import axios from "axios";
+import { headers } from "next/headers";
 
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
@@ -18,30 +19,30 @@ const CartPage = () => {
     }
 
     try {
-      // const res = await fetch(`${API_URL}/orders`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     price: totalPrice,
-      //     products,
-      //     // TODO: Change this to an enum
-      //     status: "not paid",
-      //     userEmail: session?.user.email,
-      //   }),
-      // });
-      axios
-        .post(`${API_URL}/orders`, {
+      const res = await fetch(`${API_URL}/orders`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({
           price: totalPrice,
           products,
+          // TODO: Change this to an enum
           status: "not paid",
           userEmail: session?.user.email,
-        })
-        .then((res) => {
-          router.push(`/pay/${res.data.id}`);
-        });
+        }),
+      });
+      // axios
+      //   .post(`${API_URL}/orders`, {
+      //     price: totalPrice,
+      //     products,
+      //     status: "not paid",
+      //     userEmail: session?.user.email,
+      //   })
+      //   .then((res) => {
+      //     router.push(`/pay/${res.data.id}`);
+      //   });
 
-      // const data = await res.json();
-      // router.push(`/pay/${data.id}`);
+      const data = await res.json();
+      router.push(`/pay/${data.id}`);
     } catch (error) {
       console.log(error);
     }
