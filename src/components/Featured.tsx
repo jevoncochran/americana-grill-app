@@ -5,6 +5,7 @@ import { Product } from "@/types/types";
 import { API_URL } from "@/constants/constants";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 // const getData = async () => {
 //   const res = await fetch(`${API_URL}/products`, {
@@ -56,10 +57,14 @@ const Featured = () => {
                 {product.title}
               </h1>
               <p className="p-4 2xl:p-8">{product.desc}</p>
-              <span className="text-xl font-bold">{`$${product.price}`}</span>
-              <button className="bg-red-500 text-white p-2 rounded-md">
-                Add to Cart
-              </button>
+              <span className="text-xl font-bold">{`$${Number(
+                product.price
+              ).toFixed(2)}`}</span>
+              <Link href={`/product/${product.id}`}>
+                <button className="bg-red-500 text-white px-4 p-2 rounded-md">
+                  Choose
+                </button>
+              </Link>
             </div>
           </div>
         ))}
