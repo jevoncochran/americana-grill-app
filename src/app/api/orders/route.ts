@@ -3,6 +3,8 @@ import prisma from "@/utils/connect";
 import { getAuthSession } from "../auth/[...nextauth]/options";
 import { getToken } from "next-auth/jwt";
 
+const secret = process.env.NEXTAUTH_SECRET;
+
 // FETCH ALL ORDERS
 export async function GET() {
   const session = await getAuthSession();
@@ -37,7 +39,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const session = await getAuthSession();
   console.log("session: ", session);
-  const token = await getToken({ req, raw: true });
+  const token = await getToken({ req, secret });
   console.log("token: ", token);
 
   if (token) {
