@@ -36,7 +36,7 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
       title: product.title,
       img: product.img,
       price: total,
-      // TODO: I do not follow understand this
+      // TODO: I do not fully understand this
       ...(product.options?.length && {
         option: product.options[selected].title,
       }),
