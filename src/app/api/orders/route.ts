@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/connect";
 import { authOptions, getAuthSession } from "../auth/[...nextauth]/options";
 import { getToken } from "next-auth/jwt";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
