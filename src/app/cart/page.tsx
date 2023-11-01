@@ -5,8 +5,6 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { API_URL } from "@/constants/constants";
-import axios from "axios";
-import { headers } from "next/headers";
 
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
@@ -21,7 +19,7 @@ const CartPage = () => {
     try {
       const res = await fetch(`${API_URL}/orders`, {
         method: "POST",
-        headers: headers(),
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           price: totalPrice,
           products,
