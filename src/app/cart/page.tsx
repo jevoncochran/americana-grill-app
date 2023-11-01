@@ -11,40 +11,30 @@ const CartPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const handleCheckout = async () => {
-    if (!session) {
-      router.push("/");
-    }
+const handleCheckout = async () => {
+  if (!session) {
+    router.push("/");
+  }
 
-    try {
-      const res = await fetch(`${API_URL}/orders`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          price: totalPrice,
-          products,
-          // TODO: Change this to an enum
-          status: "not paid",
-          userEmail: session?.user.email,
-        }),
-      });
-      // axios
-      //   .post(`${API_URL}/orders`, {
-      //     price: totalPrice,
-      //     products,
-      //     status: "not paid",
-      //     userEmail: session?.user.email,
-      //   })
-      //   .then((res) => {
-      //     router.push(`/pay/${res.data.id}`);
-      //   });
+  try {
+    const res = await fetch(`${API_URL}/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        price: totalPrice,
+        products,
+        // TODO: Change this to an enum
+        status: "not paid",
+        userEmail: session?.user.email,
+      }),
+    });
 
-      const data = await res.json();
-      router.push(`/pay/${data.id}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const data = await res.json();
+    router.push(`/pay/${data.id}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   useEffect(() => {
     useCartStore.persist.rehydrate();
