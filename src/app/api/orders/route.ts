@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/connect";
 import { getAuthSession } from "../auth/[...nextauth]/options";
+import { getToken } from "next-auth/jwt";
 
 // FETCH ALL ORDERS
 export async function GET() {
@@ -35,8 +36,11 @@ export async function GET() {
 // CREATE ORDER
 export async function POST(req: NextRequest) {
   const session = await getAuthSession();
+  console.log("session: ", session);
+  const token = await getToken({ req });
+  console.log("token: ", token);
 
-  if (session) {
+  if (token) {
     try {
       const body = await req.json();
 
