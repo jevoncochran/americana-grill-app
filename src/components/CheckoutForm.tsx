@@ -9,6 +9,11 @@ import {
 } from "@stripe/react-stripe-js";
 import AddressForm from "./AddressForm";
 
+const APP_URL =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
+    ? "http://localhost:3000"
+    : process.env.NEXT_PUBLIC_VERCEL_URL;
+
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -62,7 +67,7 @@ const CheckoutForm = () => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/success",
+        return_url: `${APP_URL}/success`,
       },
     });
 

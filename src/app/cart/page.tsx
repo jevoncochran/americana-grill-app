@@ -4,7 +4,6 @@ import { useCartStore } from "@/zustand/store";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { API_URL } from "@/constants/constants";
 
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();

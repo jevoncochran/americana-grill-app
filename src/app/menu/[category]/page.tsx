@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/types";
-import { API_URL } from "@/constants/constants";
 
 interface CategoryPageProps {
   params: { category: string };
 }
 
 const getData = async (category: string) => {
-  const res = await fetch(`${API_URL}/products?category=${category}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.VERCEL_URL}/api/products?category=${category}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Unable to retrieve products");
