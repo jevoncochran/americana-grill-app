@@ -1,24 +1,12 @@
 import Image from "next/image";
 import PriceContainer from "@/components/PriceContainer";
 import DeleteBtn from "@/components/DeleteBtn";
-import { API_URL } from "@/constants/constants";
-
-const getData = async (id: string) => {
-  const res = await fetch(`${API_URL}/products/${id}`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Unable to fetch product");
-  }
-
-  return res.json();
-};
+import { getProductById } from "@/serverFunctions/serverFunctions";
 
 const SingleProductPage = async ({ params }: { params: { id: string } }) => {
-  const product = await getData(params.id);
+  const product = await getProductById(params.id);
 
-  return (
+  return product ? (
     <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex md:flex-row flex-col md:gap-8 justify-around md:justify-center md:items-center text-red-500 relative">
       {/* IMAGE CONTAINER */}
       {product?.img && (
@@ -30,15 +18,15 @@ const SingleProductPage = async ({ params }: { params: { id: string } }) => {
       {/* TEXT CONTAINER */}
       <div className="h-1/2 md:h-[70%] flex flex-col md:justify-center gap-4 md:gap-6 xl:gap-8">
         <h1 className="text-3xl xl:text-5xl font-bold uppercase">
-          {product.title}
+          {product?.title}
         </h1>
-        <p>{product.desc}</p>
+        <p>{product?.desc}</p>
         <PriceContainer product={product} />
       </div>
 
       <DeleteBtn productId={product.id} />
     </div>
-  );
+  ) : null;
 };
 
 export default SingleProductPage;

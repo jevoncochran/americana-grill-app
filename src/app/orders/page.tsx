@@ -1,6 +1,5 @@
 "use client";
 
-import { API_URL } from "@/constants/constants";
 import { Order } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -12,7 +11,7 @@ const OrdersPage = () => {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
-    queryFn: () => fetch(`${API_URL}/orders`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/orders`).then((res) => res.json()),
   });
 
   const queryClient = useQueryClient();
@@ -25,7 +24,7 @@ const OrdersPage = () => {
       id: string;
       updatedStatus: string;
     }) => {
-      return fetch(`${API_URL}/orders/${id}`, {
+      return fetch(`/api/orders/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedStatus),

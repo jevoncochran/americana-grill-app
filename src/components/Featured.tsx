@@ -1,39 +1,16 @@
-"use client";
-
 import Image from "next/image";
 import { Product } from "@/types/types";
-import { API_URL } from "@/constants/constants";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getFeaturedMenu } from "@/serverFunctions/serverFunctions";
 
-// const getData = async () => {
-//   const res = await fetch(`${API_URL}/products`, {
-//     // cache: "no-store",
-//   });
-
-//   if (!res.ok) {
-//     throw new Error("Unable to retrieve featured products");
-//   }
-
-//   return res.json();
-// };
-
-const Featured = () => {
-  // const featuredProducts: Product[] = await getData();
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    axios.get(`${API_URL}/products`).then((res) => {
-      setFeaturedProducts(res.data);
-    });
-  }, []);
+const Featured = async () => {
+  const featuredProducts: any = await getFeaturedMenu();
 
   return (
     <div className="w-screen overflow-x-scroll text-red-500">
       {/* WRAPPER */}
       <div className="w-max flex">
-        {featuredProducts.map((product) => (
+        {featuredProducts.map((product: any) => (
           <div
             key={product.id}
             className="w-screen md:w-[50vw] xl:w-[33vw] h-[60vh] xl:h-[90vh] flex flex-col items-center justify-around p-4 hover:bg-fuchsia-50 transition-all duration-300"

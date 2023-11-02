@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export type Menu = {
   id: string;
   slug: string;
@@ -13,8 +15,8 @@ export type Product = {
   id: string;
   title: string;
   desc?: string;
-  img?: string;
-  price: number;
+  img: string | null;
+  price: Prisma.Decimal;
   catSlug: string;
   options?: Option[];
 };

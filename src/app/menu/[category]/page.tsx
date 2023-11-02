@@ -1,30 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/types";
-import { API_URL } from "@/constants/constants";
+import { getMenuByCategory } from "@/serverFunctions/serverFunctions";
 
 interface CategoryPageProps {
   params: { category: string };
 }
 
-const getData = async (category: string) => {
-  const res = await fetch(`${API_URL}/products?category=${category}`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Unable to retrieve products");
-  }
-
-  return res.json();
-};
-
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-  const products: Product[] = await getData(params.category);
+  const products: any = await getMenuByCategory(params.category);
 
   return (
     <div className="flex flex-wrap text-red-500">
-      {products.map((item) => (
+      {products.map((item: Product) => (
         <Link
           key={item.id}
           href={`/product/${item.id}`}
