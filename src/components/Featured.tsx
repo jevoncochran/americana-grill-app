@@ -1,29 +1,16 @@
 import Image from "next/image";
 import { Product } from "@/types/types";
 import Link from "next/link";
-
-const protocol = process.env.VERCEL_ENV === "development" ? "" : "https://";
-
-const getData = async () => {
-  const res = await fetch(`${protocol}${process.env.VERCEL_URL}/api/products`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Unable to retrieve featured products");
-  }
-
-  return res.json();
-};
+import { getFeaturedMenu } from "@/serverFunctions/serverFunctions";
 
 const Featured = async () => {
-  const featuredProducts: Product[] = await getData();
+  const featuredProducts: any = await getFeaturedMenu();
 
   return (
     <div className="w-screen overflow-x-scroll text-red-500">
       {/* WRAPPER */}
       <div className="w-max flex">
-        {featuredProducts.map((product) => (
+        {featuredProducts.map((product: any) => (
           <div
             key={product.id}
             className="w-screen md:w-[50vw] xl:w-[33vw] h-[60vh] xl:h-[90vh] flex flex-col items-center justify-around p-4 hover:bg-fuchsia-50 transition-all duration-300"

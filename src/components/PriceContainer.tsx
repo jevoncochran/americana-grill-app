@@ -6,7 +6,7 @@ import { useCartStore } from "@/zustand/store";
 import { toast } from "react-toastify";
 
 interface PriceContainerProps {
-  product: Product;
+  product: any;
 }
 
 const PriceContainer = ({ product }: PriceContainerProps) => {
@@ -58,7 +58,7 @@ const PriceContainer = ({ product }: PriceContainerProps) => {
       <h2 className="text-2xl font-bold">{Number(total).toFixed(2)}</h2>
       {/* OPTIONS CONTAINER */}
       <div className="flex gap-4">
-        {product.options?.map((option, idx) => (
+        {product.options?.map((option: any, idx: number) => (
           <button
             key={idx}
             className="w-24 p-2 ring-1 ring-red-400 rounded-md"

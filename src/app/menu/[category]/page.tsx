@@ -1,35 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/types";
-
+import { getMenuByCategory } from "@/serverFunctions/serverFunctions";
 
 interface CategoryPageProps {
   params: { category: string };
 }
 
-const protocol = process.env.VERCEL_ENV === "development" ? "" : "https://";
-
-const getData = async (category: string) => {
-  const res = await fetch(
-    `${protocol}${process.env.VERCEL_URL}/api/products?category=${category}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Unable to retrieve products");
-  }
-
-  return res.json();
-};
-
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-  const products: Product[] = await getData(params.category);
+  const products: any = await getMenuByCategory(params.category);
 
   return (
     <div className="flex flex-wrap text-red-500">
-      {products.map((item) => (
+      {products.map((item: Product) => (
         <Link
           key={item.id}
           href={`/product/${item.id}`}
