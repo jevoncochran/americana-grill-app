@@ -1,10 +1,15 @@
 import { Menu } from "@/types/types";
 import Link from "next/link";
 
+const protocol = process.env.VERCEL_ENV === "development" ? "" : "https://";
+
 const getData = async () => {
-  const res = await fetch(`${process.env.VERCEL_URL}/api/categories`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${protocol}${process.env.VERCEL_URL}/api/categories`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Unable to retrieve categories.");
