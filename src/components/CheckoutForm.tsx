@@ -12,7 +12,7 @@ import AddressForm from "./AddressForm";
 const APP_URL =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
     ? "http://localhost:3000"
-    : process.env.NEXT_PUBLIC_VERCEL_URL;
+    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
 
 const CheckoutForm = () => {
   const stripe = useStripe();
