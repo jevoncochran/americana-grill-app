@@ -2,10 +2,15 @@ import Image from "next/image";
 import PriceContainer from "@/components/PriceContainer";
 import DeleteBtn from "@/components/DeleteBtn";
 
+const protocol = process.env.VERCEL_ENV === "development" ? "" : "https://";
+
 const getData = async (id: string) => {
-  const res = await fetch(`${process.env.VERCEL_URL}/api/products/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${protocol}${process.env.VERCEL_URL}/api/products/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Unable to fetch product");

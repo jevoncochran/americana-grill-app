@@ -2,8 +2,10 @@ import Image from "next/image";
 import { Product } from "@/types/types";
 import Link from "next/link";
 
+const protocol = process.env.VERCEL_ENV === "development" ? "" : "https://";
+
 const getData = async () => {
-  const res = await fetch(`${process.env.VERCEL_URL}/api/products`, {
+  const res = await fetch(`${protocol}${process.env.VERCEL_URL}/api/products`, {
     cache: "no-store",
   });
 

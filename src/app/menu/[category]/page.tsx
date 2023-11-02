@@ -2,13 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/types";
 
+
 interface CategoryPageProps {
   params: { category: string };
 }
 
+const protocol = process.env.VERCEL_ENV === "development" ? "" : "https://";
+
 const getData = async (category: string) => {
   const res = await fetch(
-    `${process.env.VERCEL_URL}/api/products?category=${category}`,
+    `${protocol}${process.env.VERCEL_URL}/api/products?category=${category}`,
     {
       cache: "no-store",
     }
