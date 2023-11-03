@@ -49,4 +49,5 @@ export type Cart = {
 export type Actions = {
   addToCart: (item: CartItem) => void;
   removeFromCart: (item: CartItem) => void;
+  emptyCart: () => void;
 };

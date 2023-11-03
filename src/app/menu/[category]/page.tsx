@@ -16,7 +16,7 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
         <Link
           key={item.id}
           href={`/product/${item.id}`}
-          className="w-full sm:w-1/2 lg:w-1/3 h-[60vh] border-r-2 border-b-2 border-red-500 even:bg-fuchsia-50 p-4 flex flex-col justify-between group"
+          className="w-full sm:w-1/2 lg:w-1/3 h-[60vh] border-r-2 border-b-2 border-red-500 even:bg-fuchsia-50 p-4 flex flex-col justify-between"
         >
           {/* IMAGE CONTAINER */}
           {item.img && (
@@ -28,14 +28,11 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
           {/* TEXT CONTAINER */}
           <div className="flex items-center justify-between font-bold">
             <h1 className="text-2xl uppercase p-2">{item.title}</h1>
-            <h2 className="group-hover:hidden text-xl">
+            <h2 className="text-xl">
               {/* TODO: If I do not convert to number, the app breaks  */}
-              {/* However, item.price is already a number. Why? */}
+              {/* However, item.price is already a number. Why? */}$
               {Number(item.price).toFixed(2)}
             </h2>
-            <button className="hidden group-hover:block uppercase bg-red-500 text-white p-2 rounded-md">
-              Add to cart
-            </button>
           </div>
         </Link>
       ))}

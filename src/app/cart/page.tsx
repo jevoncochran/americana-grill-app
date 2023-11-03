@@ -10,30 +10,32 @@ const CartPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-const handleCheckout = async () => {
-  if (!session) {
-    router.push("/");
-  }
+  const deliveryPrice = totalPrice >= 50 ? 0 : 6.5;
 
-  try {
-    const res = await fetch(`/api/orders`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        price: totalPrice,
-        products,
-        // TODO: Change this to an enum
-        status: "not paid",
-        userEmail: session?.user.email,
-      }),
-    });
+  const handleCheckout = async () => {
+    if (!session) {
+      router.push("/");
+    }
 
-    const data = await res.json();
-    router.push(`/pay/${data.id}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+      const res = await fetch(`/api/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          price: totalPrice + 2.7 + deliveryPrice,
+          products,
+          // TODO: Change this to an enum
+          status: "not paid",
+          userEmail: session?.user.email,
+        }),
+      });
+
+      const data = await res.json();
+      router.push(`/pay/${data.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     useCartStore.persist.rehydrate();
@@ -48,7 +50,7 @@ const handleCheckout = async () => {
         {products.map((item) => (
           <div key={item.id} className="flex items-center justify-between mb-4">
             {item.img && (
-              <Image src="/temporary/p1.png" alt="" width={100} height={100} />
+              <Image src={item.img} alt="" width={100} height={100} />
             )}
             <div>
               <h1 className="uppercase text-xl font-bold">
@@ -79,12 +81,18 @@ const handleCheckout = async () => {
         </div>
         <div className="flex justify-between">
           <span>Delivery</span>
-          <span className="text-green-500">FREE</span>
+          {deliveryPrice === 0 ? (
+            <span className="text-green-500">FREE</span>
+          ) : (
+            <span>$6.50</span>
+          )}
         </div>
         <hr />
         <div className="flex justify-between my-2">
           <span>Total (taxes included)</span>
-          <span className="font-bold">${(totalPrice + 2.7).toFixed(2)}</span>
+          <span className="font-bold">
+            ${(totalPrice + 2.7 + deliveryPrice).toFixed(2)}
+          </span>
         </div>
         <button
           className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end"

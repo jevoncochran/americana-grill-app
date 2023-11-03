@@ -1,12 +1,12 @@
-import Featured from "@/components/Featured";
+import FeaturedProductsContainer from "@/components/FeaturedProductsContainer";
 import Slider from "@/components/Slider";
 import Offer from "@/components/Offer";
- 
+
 export default function Home() {
   return (
     <main>
       <Slider />
-      <Featured />
+      <FeaturedProductsContainer />
       <Offer />
     </main>
   );
