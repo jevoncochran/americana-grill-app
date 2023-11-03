@@ -3,7 +3,7 @@
 import ReactCountdown from "react-countdown";
 import { useIsClient } from "@/hooks/useIsClient";
 
-const endingDate = new Date("2023-11-01");
+const endingDate = new Date("2023-11-06");
 
 const Countdown = () => {
   // This prevents hydration errors whereas
