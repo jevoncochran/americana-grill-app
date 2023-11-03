@@ -40,9 +40,6 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   // const session = await getAuthSession();
   const session = await getServerSession(authOptions);
-  console.log("session: ", session);
-  const token = await getToken({ req, secret });
-  console.log("token: ", token);
 
   if (session) {
     try {
