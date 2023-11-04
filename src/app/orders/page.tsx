@@ -5,11 +5,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 const OrdersPage = () => {
   const { data: session, status } = useSession();
 
-  const { isLoading, error, data } = useQuery({
+  const {
+    isLoading,
+    error,
+    data: orders,
+  } = useQuery({
     queryKey: ["orders"],
     queryFn: () => fetch(`/api/orders`).then((res) => res.json()),
   });
@@ -44,13 +49,26 @@ const OrdersPage = () => {
     toast.success("Order status has been updated!");
   };
 
+  // This formats products for display on orders table
+  const parseOrder = (order: Order) => {
+    const orderProducts = order.products;
+
+    let productsOnly: string[] = [];
+    orderProducts.forEach((op) => {
+      productsOnly.push(`${op.title} (${op.quantity})`);
+    });
+
+    const productsOnlyJoined = productsOnly.join(", ");
+    return productsOnlyJoined;
+  };
+
   if (isLoading || status === "loading") {
     return <p>Loading...</p>;
   }
 
   return (
     <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-9rem)] p-4 lg:px-20 xl:px-40">
-      <table className="w-full border-separate border-spacing-3">
+      <table className="orders-table w-full border-separate border-spacing-3">
         <thead>
           <tr className="text-left">
             <th className="hidden md:block">Order ID</th>
@@ -61,7 +79,7 @@ const OrdersPage = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item: Order) => (
+          {orders.map((item: Order) => (
             <tr
               key={item.id}
               className={`text-sm md:text-base odd:bg-gray-100 ${
@@ -69,11 +87,11 @@ const OrdersPage = () => {
               }`}
             >
               <td className="hidden md:block py-6 px-1">{item.id}</td>
-              <td className="py-6 px-1">27.11.23</td>
-              <td className="py-6 px-1">{Number(item.price).toFixed(2)}</td>
-              <td className="hidden md:block py-6 px-1">
-                Coca Cola(2), Big Mac, Large Fries
+              <td className="py-6 px-1">
+                {dayjs(item.createdAt).format("MM/DD/YYYY")}
               </td>
+              <td className="py-6 px-1">${Number(item.price).toFixed(2)}</td>
+              <td className="hidden md:block py-6 px-1">{parseOrder(item)}</td>
               {session?.user.isAdmin ? (
                 <td>
                   <form
