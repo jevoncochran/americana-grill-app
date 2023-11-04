@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.orders-table th {
+  text-align: center;
+}
+
+.orders-table td {
+  @apply pl-2;
+}
